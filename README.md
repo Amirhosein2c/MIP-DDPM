@@ -3,10 +3,10 @@
  ---
 
 
-This repo contains the official Pytorch implementation of the paper *How To Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-Angle Maximum Intensity Projections and Diffusion Models*. The paper can be found [here](https://arxiv.org/pdf/2407.18555).
+This repo contains the official Pytorch implementation of the paper **How To Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-Angle Maximum Intensity Projections and Diffusion Models**. The paper can be found [here](https://arxiv.org/pdf/2407.18555).
 
 
-Our code base is divided into two pars: The folder *Binary_AE* contains code for the training of the binarizing encoder-decoder model. The folder *Bernoulli_Diffusion*   contains code for the training and evaluation of the Bernoulli diffusion model in the binary latent space. 
+<!-- Our code base is divided into two pars: The folder *Binary_AE* contains code for the training of the binarizing encoder-decoder model. The folder *Bernoulli_Diffusion*   contains code for the training and evaluation of the Bernoulli diffusion model in the binary latent space.  -->
 
 <!-- 
 ## Data
