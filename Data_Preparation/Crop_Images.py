@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import cv2
 from Utilities import *
 
-from config import Configuration, get_config
+from Data_Preparation.config import Configuration, get_config
 
 CONFIG: Configuration = get_config()
 

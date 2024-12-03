@@ -11,7 +11,7 @@ import glob
 import matplotlib.pyplot as plt
 from Utilities import *
 
-from config import Configuration, get_config
+from Data_Preparation.config import Configuration, get_config
 
 CONFIG: Configuration = get_config()
 
