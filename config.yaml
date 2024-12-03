@@ -1,0 +1,6 @@
+# config.yaml
+nifti_vols_dir: r"D:\PSMA_DATA\PSMA_LESIONS_SEGMENTATION\NIFTI"
+temp_data_dir: r"D:\TEMP"
+data_dir: r"D:\DATA"
+
+# python your_script.py --config custom_config.yaml --nifti_vols_dir /override/path --data_dir /override/path
