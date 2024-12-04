@@ -15,10 +15,7 @@ This repo contains the official Pytorch implementation of the paper **How To Seg
 5. [Inferencing](#Inferencing)
 6. [3D Reconstruction of segmentations](#3D-Reconstruction-of-segmentation-masks)
 7. [Citation](#Citation)
-    <!-- - [Transformers](#transformers)
-    - [Chat in TRL](#chat-in-trl)
-    - [Local inference](#local-inference)
-    - [Smol-tools](#smol-tools) -->
+7. [Acknowledgment](#Acknowledgment)
 
 
 
@@ -138,7 +135,7 @@ In MICCAI Workshop on Deep Generative Models (pp. 212-221).
 Cham: Springer Nature Switzerland. 
 ```
 
-
+## Acknowledgment
 
 <!-- Our code base is divided into two pars: The folder *Binary_AE* contains code for the training of the binarizing encoder-decoder model. The folder *Bernoulli_Diffusion*   contains code for the training and evaluation of the Bernoulli diffusion model in the binary latent space.  -->
 

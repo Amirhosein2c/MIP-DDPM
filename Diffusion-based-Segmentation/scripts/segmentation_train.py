@@ -76,7 +76,8 @@ def create_argparser():
         ema_rate="0.9999",  # comma-separated list of EMA values
         log_interval=1000,
         save_interval=5000,
-        resume_checkpoint='/datassd/PSMA_SEGMENTATION/Diffusion-based-Segmentation/results/savedmodel800000.pt',#'"./results/pretrainedmodel.pt",
+        # resume_checkpoint='/datassd/PSMA_SEGMENTATION/Diffusion-based-Segmentation/results/savedmodel800000.pt',#'"./results/pretrainedmodel.pt",
+        resume_checkpoint='',
         use_fp16=False,
         fp16_scale_growth=1e-3,
     )
