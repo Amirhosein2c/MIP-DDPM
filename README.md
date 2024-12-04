@@ -17,7 +17,7 @@ This repo contains the official Pytorch implementation of the paper **How To Seg
     - [Smol-tools](#smol-tools) -->
 
 
---- 
+
 ## Data
 The dataset used in this work is a private PSMA-PET / CT dataset, from a post-hoc sub-group analysis of a prospective clinical trial. 
 Inclusion criteria were: 
@@ -28,13 +28,27 @@ Overall, it comprises 510 whole-body [18F]DCFPyL PSMA-PET/CT images from the sam
 
 However, you can try this repo on your own dataset provided that you have a set of 3D PET images stored as Nifti files along with the 3D manual segmentation masks.
 
----
+
 ## Installation
 This repo is tested on Ubuntu 16.04 and 18.04 lts using python 3.8, pytorch 1.9 and Cuda 11.1 .However it could be also installed on wsl on windows as well. 
 Best practice for running this code is to use Conda environments.
 
 First, clone this repository:
-`git clone 
+
+`
+git clone https://github.com/Amirhosein2c/MIP-DDPM.git
+`
+
+Then change directory to the MIP-DDPM folder, and make a conda environment using the environment file:
+
+`
+conda env create -f diff-environment.yml
+`
+
+Then go ahead and activate the environment:
+
+`
+conda activate diff
 `
 
 ---
