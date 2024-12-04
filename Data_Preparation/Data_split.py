@@ -9,8 +9,8 @@ from tqdm import tqdm
 import glob
 import random
 import shutil
-from Data_Preparation.config import Configuration, get_config
 
+from Data_Preparation.config import Configuration, get_config
 
 CONFIG: Configuration = get_config()
 
