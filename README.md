@@ -86,6 +86,19 @@ temp_data_dir: "SOME/OTHER/DIRECTORY/TEMP"
 data_dir: "SOME/OTHER/DIRECTORY/DATA"
 ```
 
+`nifti_vols_dir` shows where your 3D nifti data is stored. `temp_data_dir` will store the MA-MIP projections before cropping, and `data_dir` is where the final processed data will be stored.
+Now go ahead and run the `Data_Preparation.py` in `Data_Preparation` folder.
+```shell
+python ./Data_Preparation/Data_Preparation.py
+```
+
+Then we need to crop the MA-MIP projections and split them to top and bottom parts. In order to do that, run the following command:
+```shell
+python ./Data_Preparation/Crop_Images.py
+```
+
+You can check the whole preprocessing step by running the notebook in `Data_Preparation` folder, named `Cropping_QC.ipynb`
+
 ## Training
 
 
