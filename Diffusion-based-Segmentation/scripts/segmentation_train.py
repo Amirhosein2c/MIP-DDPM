@@ -2,6 +2,7 @@
 Train a diffusion model on images.
 """
 import sys
+import os
 import argparse
 sys.path.append("..")
 sys.path.append(".")
@@ -16,6 +17,10 @@ from guided_diffusion.script_util import (
 )
 import torch as th
 from guided_diffusion.train_util import TrainLoop
+
+from Data_Preparation.config import Configuration, get_config
+
+CONFIG: Configuration = get_config()
 
 from visdom import Visdom
 viz = Visdom(port=8850)
@@ -66,7 +71,8 @@ def main():
 
 def create_argparser():
     defaults = dict(
-        data_dir="/datassd/PSMA_SEGMENTATION/DATA/training",
+        # data_dir="/datassd/PSMA_SEGMENTATION/DATA/training",
+        data_dir=os.path.join(CONFIG.data_dir, "training"),
         schedule_sampler="uniform",
         lr=1e-4,
         weight_decay=0.0,

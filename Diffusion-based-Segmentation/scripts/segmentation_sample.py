@@ -10,7 +10,13 @@ from visdom import Visdom
 viz = Visdom(port=9040)
 import sys
 import random
-sys.path.append("/datassd/PSMA_SEGMENTATION/Diffusion-based-Segmentation")
+
+from Data_Preparation.config import Configuration, get_config
+
+CONFIG: Configuration = get_config()
+
+# sys.path.append("/datassd/PSMA_SEGMENTATION/Diffusion-based-Segmentation")
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 import time
 import torch as th
@@ -26,6 +32,7 @@ from guided_diffusion.script_util import (
 )
 
 import nibabel as nib
+
 
 seed=10
 th.manual_seed(seed)

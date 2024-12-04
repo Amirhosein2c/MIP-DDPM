@@ -117,100 +117,83 @@ Then run the `List_train_test_cases.ipynb` to make two text files containing the
 ```
 
 ## Training
+All the codes for training and inferencing of the MIP-DDPM model can be found in `./Diffusion-based-Segmentation/scripts`.
+Before training the model, you can check your `dataloader` to make sure it works properly.
+To do so, run the jupyter notebook named `check_loaders.ipynb`.
+```shell
+./Data_Preparation/List_train_test_cases.ipynb
+```
+In order to modify the `dataloader` based on your own dataset, modify the code in `./Diffusion-based-Segmentation/guided_diffusion/bratsloader.py`
 
+You can monitor the training / inferencing process using [Visdom](https://github.com/fossasia/visdom).
+To do that, first you need to set the port first as follows:
+```shell
+visdom -port 8850
+```
+
+To train the model on your dataset, first you need to set some global flags as follows:
+
+```shell
+
+MODEL_FLAGS="--image_size 256 --num_channels 128 --class_cond False --num_res_blocks 2 --num_heads 1 --learn_sigma False --use_scale_shift_norm False --attention_resolutions 16"
+DIFFUSION_FLAGS="--diffusion_steps 1000 --noise_schedule linear --rescale_learned_sigmas False --rescale_timesteps False"
+TRAIN_FLAGS="--lr 1e-4 --batch_size 8"
+```
+
+Then run the training script using the following:
+```shell
+python scripts/segmentation_train.py --data_dir /datassd/PSMA_SEGMENTATION/DATA/training $TRAIN_FLAGS $MODEL_FLAGS $DIFFUSION_FLAGS
+```
+
+For more details about training the DDPM model for segmentation task, please refer to the github repository of [Diffusion Models for Implicit Image Segmentation Ensembles](https://github.com/JuliaWolleb/Diffusion-based-Segmentation/blob/main/README.md). by Dr. Julia Wolleb.
 
 ## Inferencing
+In order to perform segmentation using the trained model, depending the number of GPUs you have access to, there are different scripts that can be used to do so.
 
+#### Single GPU
+For single GPU inferencing you can run the script `scripts/segmentation_sample.py`
+
+```shell
+python scripts/segmentation_sample.py  --model_path ./results/savedmodel100000.pt --num_ensemble=10 $MODEL_FLAGS $DIFFUSION_FLAGS
+```
+
+Here, `--model_path` shows the trained weights of the network, stored in `results` folder.
+
+#### Multiple GPUs
+
+In case of having more than one GPU, you can divide the inferencing step to run each part on one GPU. You can refer to the scripts `Inference_and_save_gpu-0.ipynb` and run them based on the number of GPUs you have access to.
+
+Please also note that in our method we do ensemble of 10 times inferences and use the mean image of the 10 segmentation masks as the final segmentation projection per each MA-MIP. This number is one of the hyperparameters that can be set in the code / environment variables.
 
 ## 3D Reconstruction of segmentation masks
+Result of the last step is predicted segmentation masks of the ROIs but in MIP projection space. So in order to transform it back to the original 3D space, we used OSEM algorithm.
+To do so, first run the `Seg_Recon.ipynb` in `./Reconstruction` directory. This will store the ground truth MA-MIP segmentation masks and the predicted ones in order to perform reconstruction and evaluation.
+
+```shell
+./Reconstruction/Seg_Recon.ipynb
+```
+
+Now in order to backproject the segmentation masks from MA-MIP space to the 3D space, use the jupyter notebook `RECON_SEG_DICE.ipynb` in the `./Reconstruction` directory.
+Please note that, for reconstruction algorithm we used OSEM implementation provided by [PyTomography](https://github.com/PyTomography) toolbox.
+
 
 
 ## Citation
 
 If you use this code repository, please cite our paper:
 ```
-Toosi, A., Harsini, S., Bénard, F., Uribe, C., & Rahmim, A. (2024, October). 
-How to Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-angle Maximum Intensity Projections and Diffusion Models. 
-In MICCAI Workshop on Deep Generative Models (pp. 212-221). 
-Cham: Springer Nature Switzerland. 
+@inproceedings{toosi2024segment,
+  title={How to Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-angle Maximum Intensity Projections and Diffusion Models},
+  author={Toosi, Amirhosein and Harsini, Sara and B{\'e}nard, Fran{\c{c}}ois and Uribe, Carlos and Rahmim, Arman},
+  booktitle={MICCAI Workshop on Deep Generative Models},
+  pages={212--221},
+  year={2024},
+  organization={Springer}
+}
 ```
 
 ## Acknowledgment
 
-<!-- Our code base is divided into two pars: The folder *Binary_AE* contains code for the training of the binarizing encoder-decoder model. The folder *Bernoulli_Diffusion*   contains code for the training and evaluation of the Bernoulli diffusion model in the binary latent space.  -->
+Authors would like to thank Dr. Julia Wolleb for generously sharing their code for the [Diffusion Models for Implicit Image Segmentation Ensembles](https://github.com/JuliaWolleb/Diffusion-based-Segmentation/blob/main/README.md). The segmentation part of our method is heavily borrowed from their work.
 
-<!-- 
-## Data
-The BRATS2020 dataset can be downloaded [here](https://www.med.upenn.edu/cbica/brats2020/data.html).
-The OCT2017 dataset can be downloaded [here](https://www.kaggle.com/datasets/paultimothymooney/kermany2018).
-A mini-example how the data needs to be stored can be found in the folder *data*. 
-
-
-<img src="./overview1.png" alt="drawing" style="width:800px;"/>
-
-
-### Training of the Binarizing Autoencoder
-- To run the training of the binarizing autoencoder on the BRATS2020 dataset, run
-`python  ./Binary_AE/train_ae.py --dataset brats --amp --ema --steps_per_save_output 5000 --codebook_size 128  --nf 32 --steps_per_log 200 --steps_per_checkpoint 10000 --img_size 256 --batch_size 24 --latent_shape 1 32 32 --ch_mult 1 2 2 4 --n_channels=4  --log_dir logs/binaryae_brats --norm_first --data_dir ./data/brats/training`
-
-- To run the training of the binarizing autoencoder on the OCT dataset, run
-`python  ./Binary_AE/train_ae.py --dataset OCT --amp --ema --steps_per_save_output 5000 --codebook_size 128  --nf 32 --steps_per_log 200 --steps_per_checkpoint 10000 --img_size 256 --batch_size 24 --latent_shape 1 32 32 --ch_mult 1 2 2 4 --n_channels=1  --log_dir logs/binaryae_OCT --norm_first --data_dir ./data/OCT/training`
-
-
-The trained autoencoder models will be stored in a folder *logs*.
-
-### Check the Performance of the Pretrained Binarizing Autoencoder
-- For the BRATS2020 dataset, run
-`python  ./Bernoulli_Diffusion/scripts/test_ae.py --sampler bld  --dataset brats --data_dir './data/brats/training' --amp --ema  --codebook_size 128 --nf 32 --steps_per_log 200 --steps_per_checkpoint 10000 --img_size 256 --batch_size 1 --latent_shape 1 32 32 --ch_mult 1 2 2 4 --n_channels=4  --log_dir ./logs/binaryae_brats --norm_first --ae_load_dir ./logs/binaryae_brats --ae_load_step 00000`
-
-- For the OCT dataset, run
-`python  ./Bernoulli_Diffusion/scripts/test_ae.py --sampler bld  --dataset OCT --data_dir './data/OCT/training' --amp --ema  --codebook_size 128 --nf 32 --steps_per_log 200 --steps_per_checkpoint 10000 --img_size 256 --batch_size 1 --latent_shape 1 32 32 --ch_mult 1 2 2 4 --n_channels=1  --log_dir ./logs/binaryae_OCT  --norm_first --ae_load_dir ./logs/binaryae_OCT --ae_load_step 00000`
-
-
-### Training of the Bernoulli Diffusion Model
-
-- To run the training of the Bernoulli diffusion model on the BRATS2020 dataset, run
-`python ./Bernoulli_Diffusion/scripts/latent_train.py --sampler bld  --dataset brats --data_dir './data/brats/training'  --codebook_size 128 --nf 32  --img_size 256 --batch_size 36 --latent_shape 1 32 32 --ch_mult 1 2 2 4 --n_channels=4 --ae_load_dir ./logs/binaryae_brats --ae_load_step 00000`
-- To run the training of the Bernoulli diffusion model on the OCT2017 dataset, run
- `python  ./Bernoulli_Diffusion/scripts/latent_train.py --sampler bld  --dataset OCT --data_dir './data/OCT/training'  --codebook_size 128 --nf 32  --img_size 256 --batch_size 36 --latent_shape 1 32 32 --ch_mult 1 2 2 4 --n_channels=1 --ae_load_dir ./logs/binaryae_OCT --ae_load_step 00000`
- 
- The trained Bernoulli diffusion models will be stored in a folder *results*.
-
-### Inference
-Use the flags `--noise_level` and  `--prob_threshold` to set the noise level L and the probability threshold P, respectively
-- To run the inference on the BRATS2020 test set, run
-   `python ./Bernoulli_Diffusion/scripts/latent_sample_anomaly.py    --sampler bld  --dataset brats --data_dir './data/brats/validation' --noise_level 200 --prob_threshold 0.5  --codebook_size 128 --nf 32  --img_size 256 --batch_size 1 --latent_shape 1 32 32 --ch_mult 1 2 2 4 --n_channels=4  --ae_load_dir ./logs/binaryae_brats --ae_load_step 00000 --amp --ema  --norm_first`
-   
-
-- To run the inference on the OCT test set, run
-    `python  ./Bernoulli_Diffusion/scripts/latent_sample_anomaly.py   --sampler bld  --dataset OCT --data_dir './data/OCT/validation' --noise_level 200 --prob_threshold 0.5 --codebook_size 128 --nf 32  --img_size 256 --batch_size 1 --latent_shape 1 32 32 --ch_mult 1 2 2 4 --n_channels=1  --ae_load_dir ./logs/binaryae_OCT --ae_load_step 0000 --amp --ema  --norm_first`
-
-## Citation
-
-If you use this code repository, please cite our paper:
-
-Wolleb, J., Bieder, F., Friedrich, P., Zhang, P., Durrer, A., & Cattin, P. C. (2024). Binary Noise for Binary Tasks: Masked Bernoulli Diffusion for Unsupervised Anomaly Detection. arXiv preprint arXiv:2403.11667.
-
-
-## Comparing Methods
-### AnoDDPM
-We implement the method [AnoDDPM: Anomaly Detection With Denoising Diffusion Probabilistic Models Using Simplex Noise](https://openaccess.thecvf.com/content/CVPR2022W/NTIRE/html/Wyatt_AnoDDPM_Anomaly_Detection_With_Denoising_Diffusion_Probabilistic_Models_Using_Simplex_CVPRW_2022_paper.html) as suggested in [this Github Repo](https://github.com/Julian-Wyatt/AnoDDPM).
-We adapt the dataloader to take input images of resolution 4x256x256 (BRATS2020), or 1x256x256 (OCT2017) respectively. We train the model for 2000 epochs on each dataset. As suggested in their paper, during inference, we add 250 steps of simplex noise to the input image and iterate through the denoising process following a simplex noise schedule.
-
-### Latent Diffusion Model (LDM)
-We follow the paper [Fast Unsupervised Brain Anomaly Detection and Segmentation with Diffusion Models](https://conferences.miccai.org/2022/papers/211-Paper1680.html).
-For the pytorch code, we follow the tutorial for the 2d latent diffusion model given in [MONAIGenerative](https://github.com/Project-MONAI/GenerativeModels/tree/main/tutorials/generative/2d_ldm).
-For the autoencoder, we use the implementation of the [VQVAE](https://github.com/Project-MONAI/GenerativeModels/blob/main/generative/networks/nets/vqvae.py). We train it for 100 epochs with a batch size of 24.
-For the diffusion model in the latent space, we follow the implementation of the [2D latent diffusion model](https://github.com/Project-MONAI/GenerativeModels/blob/main/generative/networks/nets/diffusion_model_unet.py). We train it for 200 epochs with a batch size of 24.
-During sampling, we achieved the best healthy reconstructions by adding L=300 steps of noise to the input images, and then iteratively going through the Gaussian denoising process. The masking is applied as described in
-
-### pDDPM
-We follow the paper [Patched Diffusion Models for Unsupervised Anomaly Detection in Brain MRI](https://arxiv.org/abs/2303.03758) and obtain healthy reconstructions via a patch-based inpainting task.
-We adapt the Github repo proposed [here](https://github.com/FinnBehrendt/patched-Diffusion-Models-UAD) to work on 2D images of resolution of 4x256x256 (BRATS2020), or 1x256x256 (OCT2017) respectively, and mask out patches of resolution 128x128. For this resolution and patch size, during sampling, we achieved the best healthy reconstructions by adding L=300 steps of noise to the input images.
-
-### AutoDDPM
-According to [Mask, Stitch, and Re-Sample: Enhancing Robustness and Generalizability in Anomaly Detection through Automatic Diffusion Models](https://openreview.net/pdf/bccb1a6f870d1e91bbe01e1f472e196154d8e5ac.pdf), we implement AutoDDPM following [this Github repo](https://github.com/ci-ber/autoDDPM). We train for 630 epochs on the BRATS2020 dataset. On the OCT2017 datasets, 66 epochs were sufficient. The batch size is chosen to be 4 on both datasets.
- -->
-
-
-
+We would like to also thank [PyTomography](https://github.com/PyTomography) authors for their awesome 3D reconstruction algorithms implementation toolbox. 
