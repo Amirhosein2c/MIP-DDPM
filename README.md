@@ -43,6 +43,7 @@ Then change directory to the MIP-DDPM folder, and make a conda environment using
 
 `
 cd ./MIP-DDPM
+
 conda env create -f diff-environment.yml
 `
 
