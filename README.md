@@ -41,9 +41,8 @@ git clone https://github.com/Amirhosein2c/MIP-DDPM.git
 
 Then change directory to the MIP-DDPM folder, and make a conda environment using the environment file:
 
-`
+`bash
 cd ./MIP-DDPM
-
 conda env create -f diff-environment.yml
 `
 
