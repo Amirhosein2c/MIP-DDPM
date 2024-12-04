@@ -7,7 +7,10 @@ This repo contains the official Pytorch implementation of the paper **How To Seg
 ## Table of Contents
 1. [Data](#data)
 2. [Installation](#Installation)
-3. [Data Preparation](#Preprocessing)
+3. [Data Preparation](#Data-Preparation)
+    - [Preprocessing](#Preprocessing)
+    - [Cropping](#Cropping)
+    - [Train / Test Split](#Splitting)
 4. [Network Training](#Training)
 5. [Inferencing](#Inferencing)
 6. [3D Reconstruction of segmentations](#3D-Reconstruction-of-segmentation-masks)
@@ -54,7 +57,7 @@ conda activate diff
 ```
 
 
-## Preprocessing
+## Data-Preparation
 Assuming your data is stored in a folder named `NIFTI_DATA_VOL` as follows:
 ```
 NIFTI_DATA_VOL/
@@ -87,18 +90,34 @@ temp_data_dir: "SOME/OTHER/DIRECTORY/TEMP"
 data_dir: "SOME/OTHER/DIRECTORY/DATA"
 ```
 
+# Preprocessing
 `nifti_vols_dir` shows where your 3D nifti data is stored. `temp_data_dir` will store the MA-MIP projections before cropping, and `data_dir` is where the final processed data will be stored.
 Now go ahead and run the `Data_Preparation.py` in `Data_Preparation` folder.
 ```shell
 python ./Data_Preparation/Data_Preparation.py
 ```
 
+# Cropping
 Then we need to crop the MA-MIP projections and split them to top and bottom parts. In order to do that, run the following command:
 ```shell
 python ./Data_Preparation/Crop_Images.py
 ```
 
-You can check the whole preprocessing step by running the notebook in `Data_Preparation` folder, named `Cropping_QC.ipynb`
+You can check the whole preprocessing step by running the notebook in `Data_Preparation` folder, running the jupyter notebook named `Cropping_QC.ipynb`
+```shell
+./Data_Preparation/Cropping_QC.ipynb
+```
+
+# Splitting
+Then, run the `Data_split.py` to split the processed data in training / testing partitions. Here we keep 85% of the data for train and validation, and the rest of 15% for testing.
+```shell
+python ./Data_Preparation/Data_split.py
+```
+
+Then run the `List_train_test_cases.ipynb` to make two text files containing the training and testing samples names. We need them for training and inferencing the model later on.
+```shell
+./Data_Preparation/List_train_test_cases.ipynb
+```
 
 ## Training
 
