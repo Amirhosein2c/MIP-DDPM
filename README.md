@@ -54,7 +54,37 @@ conda activate diff
 
 
 ## Preprocessing
+Assuming your data is stored in a folder named `NIFTI_DATA_VOL` as follows:
+```
+NIFTI_DATA_VOL/
+├── CT/
+│   ├── PSMA-01-001__CT.nii.gz
+│   ├── PSMA-01-003__CT.nii.gz
+│   ├── PSMA-01-006__CT.nii.gz
+│   ├── PSMA-01-008__CT.nii.gz
+│   └── ...
+├── MASK/
+│   ├── PSMA-01-001__MASK.nii.gz
+│   ├── PSMA-01-003__MASK.nii.gz
+│   ├── PSMA-01-006__MASK.nii.gz
+│   ├── PSMA-01-008__MASK.nii.gz
+│   └── ...
+└── PET/
+    ├── PSMA-01-001__PET.nii.gz
+    ├── PSMA-01-003__PET.nii.gz
+    ├── PSMA-01-006__PET.nii.gz
+    ├── PSMA-01-008__PET.nii.gz
+    └── ...
+```
+You need to define two directories for storing the data after preprocessing for training MIP-DDPM.
+To this end, you need to change the `config.yaml` file in `Data-Preparation` folder as follows:
 
+```YAML
+# config.yaml
+nifti_vols_dir: "SOME/DIRECTORY/NIFTI_DATA_VOL"
+temp_data_dir: "SOME/OTHER/DIRECTORY/TEMP"
+data_dir: "SOME/OTHER/DIRECTORY/DATA"
+```
 
 ## Training
 
