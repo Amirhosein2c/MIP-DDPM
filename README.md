@@ -35,22 +35,22 @@ Best practice for running this code is to use Conda environments.
 
 First, clone this repository:
 
-`
+```
 git clone https://github.com/Amirhosein2c/MIP-DDPM.git
-`
+```
 
 Then change directory to the MIP-DDPM folder, and make a conda environment using the environment file:
 
-`shell
+```shell
 cd ./MIP-DDPM
 conda env create -f diff-environment.yml
-`
+```
 
 Then go ahead and activate the environment:
 
-`
+```
 conda activate diff
-`
+```
 
 ---
 ## Preprocessing
