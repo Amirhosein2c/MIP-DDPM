@@ -69,7 +69,10 @@ conda activate diff
 
 If you use this code repository, please cite our paper:
 ```
-Toosi, A., Harsini, S., Bénard, F., Uribe, C., & Rahmim, A. (2024, October). How to Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-angle Maximum Intensity Projections and Diffusion Models. In MICCAI Workshop on Deep Generative Models (pp. 212-221). Cham: Springer Nature Switzerland. 
+Toosi, A., Harsini, S., Bénard, F., Uribe, C., & Rahmim, A. (2024, October). 
+How to Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-angle Maximum Intensity Projections and Diffusion Models. 
+In MICCAI Workshop on Deep Generative Models (pp. 212-221). 
+Cham: Springer Nature Switzerland. 
 ```
 
 
