@@ -2,6 +2,7 @@
 
 This repo contains the official Pytorch implementation of the paper **How To Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-Angle Maximum Intensity Projections and Diffusion Models**. The paper can be found [here](https://arxiv.org/pdf/2407.18555).
 
+<img src="./method.png" alt="drawing" style="width:800px;"/>
 
 ## Table of Contents
 1. [Data](#data)
