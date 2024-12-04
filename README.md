@@ -3,6 +3,59 @@
 This repo contains the official Pytorch implementation of the paper **How To Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-Angle Maximum Intensity Projections and Diffusion Models**. The paper can be found [here](https://arxiv.org/pdf/2407.18555).
 
 
+## Table of Contents
+1. [Data](#data)
+2. [Installation](#Installation)
+3. [Data Preparation](#Preprocessing)
+4. [Network Training](#Training)
+5. [Inferencing](#Inferencing)
+6. [3D Reconstruction of segmentations](#3D-Reconstruction-of-segmentation-masks)
+7. [Citation](#Citation)
+    <!-- - [Transformers](#transformers)
+    - [Chat in TRL](#chat-in-trl)
+    - [Local inference](#local-inference)
+    - [Smol-tools](#smol-tools) -->
+
+
+--- 
+## Data
+The dataset used in this work is a private PSMA-PET / CT dataset, from a post-hoc sub-group analysis of a prospective clinical trial. 
+Inclusion criteria were: 
+- histologically proven prostate cancer with biochemical recurrence after initial curative therapy with radical prostatectomy, with a PSA > 0.4 ng/mL and an additional measurement showing increase.
+- histologically proven prostate cancer with biochemical recurrence after initial curative therapy with RT, with a PSA level > 2 ng/mL above the nadir after therapy.
+
+Overall, it comprises 510 whole-body [18F]DCFPyL PSMA-PET/CT images from the same number of patients.
+
+However, you can try this repo on your own dataset provided that you have a set of 3D PET images stored as Nifti files along with the 3D manual segmentation masks.
+
+---
+## Installation
+This repo is tested on Ubuntu 16.04 and 18.04 lts using python 3.8, pytorch 1.9 and Cuda 11.1 .However it could be also installed on wsl on windows as well. 
+Best practice for running this code is to use Conda environments.
+
+First, clone this repository:
+`git clone 
+`
+
+---
+## Preprocessing
+
+---
+## Training
+
+---
+## Inferencing
+
+---
+## 3D Reconstruction of segmentation masks
+
+---
+## Citation
+
+If you use this code repository, please cite our paper:
+
+Toosi, A., Harsini, S., Bénard, F., Uribe, C., & Rahmim, A. (2024, October). How to Segment in 3D Using 2D Models: Automated 3D Segmentation of Prostate Cancer Metastatic Lesions on PET Volumes Using Multi-angle Maximum Intensity Projections and Diffusion Models. In MICCAI Workshop on Deep Generative Models (pp. 212-221). Cham: Springer Nature Switzerland. 
+
 <!-- Our code base is divided into two pars: The folder *Binary_AE* contains code for the training of the binarizing encoder-decoder model. The folder *Bernoulli_Diffusion*   contains code for the training and evaluation of the Bernoulli diffusion model in the binary latent space.  -->
 
 <!-- 
